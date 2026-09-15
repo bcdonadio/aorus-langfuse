@@ -18,6 +18,7 @@ CgroupsMode=split
 LogDriver=journald
 PidsLimit=1024
 EnvironmentFile=%h/.config/aorus-langfuse/langfuse.env
+Environment=LANGFUSE_LOG_LEVEL=warn
 Environment=NODE_OPTIONS=--max-old-space-size=1536
 Environment=HOSTNAME=0.0.0.0
 PublishPort=127.0.0.1:3000:3000

@@ -17,7 +17,7 @@ LogDriver=journald
 PidsLimit=1024
 EnvironmentFile=%h/.config/aorus-langfuse/redis.env
 Volume=/mnt/aorus/langfuse/redis:/data:Z
-Exec=/bin/sh -c 'exec redis-server --requirepass "$REDIS_PASSWORD" --appendonly yes --maxmemory 512mb --maxmemory-policy noeviction --save 60 1000'
+Exec=/bin/sh -c 'exec redis-server --loglevel warning --requirepass "$REDIS_PASSWORD" --appendonly yes --maxmemory 512mb --maxmemory-policy noeviction --save 60 1000'
 HealthCmd=/bin/sh -c 'REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli ping | grep -q PONG'
 HealthInterval=10s
 HealthRetries=5

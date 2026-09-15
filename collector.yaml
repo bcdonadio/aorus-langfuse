@@ -79,6 +79,8 @@ service:
   extensions:
     - file_storage
   telemetry:
+    logs:
+      level: warn
     metrics:
       readers:
         - pull:

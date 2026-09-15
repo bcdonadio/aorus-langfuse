@@ -19,7 +19,7 @@ User=65534:65534
 Environment=GOMEMLIMIT=1536MiB
 Volume=%h/.config/aorus-langfuse/prometheus.yaml:/etc/prometheus/prometheus.yml:ro,Z
 Volume=/mnt/aorus/langfuse/prometheus:/prometheus:Z
-Exec=--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention.time=14d --storage.tsdb.retention.size=8GB --web.enable-otlp-receiver
+Exec=--log.level=warn --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention.time=14d --storage.tsdb.retention.size=8GB --web.enable-otlp-receiver
 
 [Service]
 Slice=langfuse.slice

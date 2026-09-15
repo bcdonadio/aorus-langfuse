@@ -49,7 +49,6 @@ def main() -> int:
     request = urllib.request.Request(OTLP_METRICS_URL, data=body, headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(request, timeout=10) as response:
         response.read()
-    print(json.dumps({"filesystem": "/host-data", "free_bytes": free, "used_bytes": used}, sort_keys=True))
     return 0
 
 

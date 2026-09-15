@@ -96,6 +96,15 @@ processes may need a normal restart to load the configuration; installation does
 not terminate the active desktop. Do not confuse native operational spans with
 transcript-derived conversational traces.
 
+## Service logging
+
+Application logs use warning level (Langfuse, Collector, Loki, Grafana,
+Prometheus, Redis, and ClickHouse). MinIO's `--quiet` disables startup and info
+messages. PostgreSQL retains its warning-level message threshold. The disk
+metrics helper is silent on success and reports failures to stderr.
+Systemd lifecycle messages may still appear when units start or stop. These
+settings do not filter the full Codex telemetry being stored in Loki/Langfuse.
+
 ## Retention, capacity, and operation
 
 Loki and Prometheus retain 14 days; Prometheus also limits retained blocks to
