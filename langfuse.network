@@ -1,0 +1,9 @@
+[Unit]
+Description=Private Langfuse application network
+PartOf=langfuse.target
+
+[Network]
+NetworkName=aorus-langfuse
+
+[Service]
+Slice=langfuse.slice

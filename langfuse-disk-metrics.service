@@ -1,0 +1,24 @@
+[Unit]
+Description=Publish Aorus Langfuse filesystem metrics
+Wants=langfuse-collector.service
+After=langfuse-collector.service
+PartOf=langfuse.target
+
+[Service]
+Type=oneshot
+TimeoutStartSec=15
+MemoryMax=64M
+TasksMax=16
+Slice=langfuse.slice
+ExecStart=/usr/bin/python3 %h/.config/aorus-langfuse/disk-metrics.py
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+MemoryDenyWriteExecute=true

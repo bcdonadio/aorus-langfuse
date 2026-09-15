@@ -1,0 +1,35 @@
+[Unit]
+Description=Aorus Langfuse redis
+PartOf=langfuse.target
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/library/redis:8.10.1@sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5
+Pull=never
+ContainerName=aorus-langfuse-redis
+Network=langfuse.network
+NetworkAlias=redis
+GlobalArgs=--cgroup-manager=systemd
+CgroupsMode=split
+LogDriver=journald
+PidsLimit=1024
+EnvironmentFile=%h/.config/aorus-langfuse/redis.env
+Volume=/mnt/aorus/langfuse/redis:/data:Z
+Exec=/bin/sh -c 'exec redis-server --requirepass "$REDIS_PASSWORD" --appendonly yes --maxmemory 512mb --maxmemory-policy noeviction --save 60 1000'
+HealthCmd=/bin/sh -c 'REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli ping | grep -q PONG'
+HealthInterval=10s
+HealthRetries=5
+HealthOnFailure=kill
+Notify=healthy
+
+[Service]
+Slice=langfuse.slice
+Restart=always
+RestartSec=10
+TimeoutStartSec=180
+TimeoutStopSec=90
+
+[Install]
+WantedBy=langfuse.target

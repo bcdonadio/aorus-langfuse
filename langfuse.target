@@ -1,0 +1,8 @@
+[Unit]
+Description=Langfuse and Codex observability stack
+Wants=langfuse-web.service langfuse-worker.service langfuse-postgres.service langfuse-clickhouse.service langfuse-redis.service langfuse-minio.service langfuse-collector.service langfuse-loki.service langfuse-prometheus.service langfuse-grafana.service
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service
+
+[Install]
+WantedBy=default.target

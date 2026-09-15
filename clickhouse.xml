@@ -1,0 +1,11 @@
+<clickhouse>
+  <listen_host replace="replace">0.0.0.0</listen_host>
+  <thread_pool_queue_size>1024</thread_pool_queue_size>
+  <max_server_memory_usage>4294967296</max_server_memory_usage>
+  <max_thread_pool_size>512</max_thread_pool_size>
+  <background_pool_size>16</background_pool_size>
+  <background_schedule_pool_size>4</background_schedule_pool_size>
+  <background_message_broker_schedule_pool_size>2</background_message_broker_schedule_pool_size>
+  <background_distributed_schedule_pool_size>2</background_distributed_schedule_pool_size>
+  <logger><level>warning</level><console>true</console><size>10M</size><count>3</count></logger>
+</clickhouse>

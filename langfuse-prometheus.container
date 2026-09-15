@@ -1,0 +1,32 @@
+[Unit]
+Description=Aorus Langfuse prometheus
+PartOf=langfuse.target
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
+Pull=never
+ContainerName=aorus-langfuse-prometheus
+Network=langfuse.network
+NetworkAlias=prometheus
+GlobalArgs=--cgroup-manager=systemd
+CgroupsMode=split
+LogDriver=journald
+PidsLimit=1024
+User=65534:65534
+Environment=GOMEMLIMIT=1536MiB
+Volume=%h/.config/aorus-langfuse/prometheus.yaml:/etc/prometheus/prometheus.yml:ro,Z
+Volume=/mnt/aorus/langfuse/prometheus:/prometheus:Z
+Exec=--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention.time=14d --storage.tsdb.retention.size=8GB --web.enable-otlp-receiver
+
+[Service]
+Slice=langfuse.slice
+Restart=always
+RestartSec=10
+TimeoutStartSec=180
+TimeoutStopSec=90
+
+[Install]
+WantedBy=langfuse.target

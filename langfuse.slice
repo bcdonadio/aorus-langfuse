@@ -1,0 +1,11 @@
+[Unit]
+Description=Aggregate resource budget for Langfuse and Codex observability
+
+[Slice]
+CPUQuota=600%
+MemoryHigh=12G
+MemoryMax=16G
+MemorySwapMax=2G
+TasksMax=4096
+CPUWeight=25
+IOWeight=25

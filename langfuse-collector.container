@@ -1,0 +1,36 @@
+[Unit]
+Description=Aorus Langfuse collector
+PartOf=langfuse.target
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service
+After=langfuse-loki.service langfuse-prometheus.service
+Wants=langfuse-loki.service langfuse-prometheus.service
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/otel/opentelemetry-collector-contrib:0.160.0@sha256:799dc6cf12c96192af37b5bdba804da8c10b3bc563b43cb90c3f3c58d9572ad6
+Pull=never
+ContainerName=aorus-langfuse-collector
+Network=langfuse.network
+NetworkAlias=collector
+GlobalArgs=--cgroup-manager=systemd
+CgroupsMode=split
+LogDriver=journald
+PidsLimit=1024
+User=10001:10001
+EnvironmentFile=%h/.config/aorus-langfuse/collector.env
+Environment=GOMEMLIMIT=768MiB
+Volume=%h/.config/aorus-langfuse/collector.yaml:/etc/otelcol/config.yaml:ro,Z
+Volume=/mnt/aorus/langfuse/collector:/var/lib/otelcol:Z
+Exec=--config=/etc/otelcol/config.yaml
+PublishPort=127.0.0.1:4318:4318
+
+[Service]
+Slice=langfuse.slice
+Restart=always
+RestartSec=10
+TimeoutStartSec=180
+TimeoutStopSec=90
+
+[Install]
+WantedBy=langfuse.target

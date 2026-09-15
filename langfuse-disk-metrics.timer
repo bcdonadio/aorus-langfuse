@@ -1,0 +1,14 @@
+[Unit]
+Description=Publish Aorus Langfuse filesystem metrics every 30 seconds
+Wants=langfuse-collector.service
+After=langfuse-collector.service
+PartOf=langfuse.target
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30s
+AccuracySec=10s
+Unit=langfuse-disk-metrics.service
+
+[Install]
+WantedBy=langfuse.target

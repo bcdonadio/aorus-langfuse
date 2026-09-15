@@ -1,0 +1,36 @@
+[Unit]
+Description=Aorus Langfuse grafana
+PartOf=langfuse.target
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service
+After=langfuse-loki.service langfuse-prometheus.service
+Wants=langfuse-loki.service langfuse-prometheus.service
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.io/grafana/grafana:13.2.1@sha256:f772d434e8fab0049deb2b1b30abd43342bcfca1537614aa8d36080232cf4283
+Pull=never
+ContainerName=aorus-langfuse-grafana
+Network=langfuse.network
+NetworkAlias=grafana
+GlobalArgs=--cgroup-manager=systemd
+CgroupsMode=split
+LogDriver=journald
+PidsLimit=1024
+User=472:472
+EnvironmentFile=%h/.config/aorus-langfuse/grafana.env
+Volume=/mnt/aorus/langfuse/grafana:/var/lib/grafana:Z
+Volume=%h/.config/aorus-langfuse/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/aorus.yaml:ro,Z
+Volume=%h/.config/aorus-langfuse/grafana-dashboards.yaml:/etc/grafana/provisioning/dashboards/aorus.yaml:ro,Z
+Volume=%h/.config/aorus-langfuse/grafana-dashboard.json:/var/lib/grafana/dashboards/aorus.json:ro,Z
+PublishPort=127.0.0.1:3001:3000
+
+[Service]
+Slice=langfuse.slice
+Restart=always
+RestartSec=10
+TimeoutStartSec=180
+TimeoutStopSec=90
+
+[Install]
+WantedBy=langfuse.target

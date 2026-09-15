@@ -1,0 +1,11 @@
+[Unit]
+Description=Verify and prepare Langfuse persistent filesystem
+PartOf=langfuse.target
+Before=langfuse.target
+
+[Service]
+Type=oneshot
+Slice=langfuse.slice
+ExecStart=/usr/bin/python3 /mnt/bcdtank/enc/infra/donadio/langfuse/install.py --prepare
+RemainAfterExit=yes
+TimeoutStartSec=90

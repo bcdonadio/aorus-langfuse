@@ -1,0 +1,14 @@
+[Unit]
+Description=Initialize Langfuse S3 bucket
+PartOf=langfuse.target langfuse-minio.service
+After=langfuse-minio.service
+Requires=langfuse-minio.service
+
+[Service]
+Type=oneshot
+Slice=langfuse.slice
+ExecStart=/usr/bin/python3 /mnt/bcdtank/enc/infra/donadio/langfuse/bootstrap-s3.py
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=60

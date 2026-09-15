@@ -1,0 +1,12 @@
+{
+  "langfuse-web": "docker.langfuse.com/langfuse/langfuse:4.36.0@sha256:b0556ab389af97d861185323e6dbd410464bb2b1669bd819251cb3635c291c07",
+  "langfuse-worker": "docker.langfuse.com/langfuse/langfuse-worker:4.36.0@sha256:25212a931e27f5d8a87cb25c81b5ccdb9f239655c1d9efb54a4378ded32c2c9e",
+  "postgres": "docker.io/library/postgres:18.6@sha256:4ef4dbc939d61acea57712655ddb4b4ab27419c913f94cca0cd57cb3ea3c2280",
+  "clickhouse": "docker.io/clickhouse/clickhouse-server:26.8.4.11@sha256:b1d9f9baec7727c779a6febb2a95eb08a8e1de3f463294e3ebb35c3d3fb30360",
+  "redis": "docker.io/library/redis:8.10.1@sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5",
+  "minio": "cgr.dev/chainguard/minio@sha256:ad4a4c0a39ad7b71408124fe3df07b1b2e9d2959a369fac8754d2ef3311b5c20",
+  "collector": "docker.io/otel/opentelemetry-collector-contrib:0.160.0@sha256:799dc6cf12c96192af37b5bdba804da8c10b3bc563b43cb90c3f3c58d9572ad6",
+  "loki": "docker.io/grafana/loki:3.7.7@sha256:d70e4659623f3e109af669cae76fe2a5dd5be54e2298fe8aed380d982fbc2500",
+  "prometheus": "docker.io/prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0",
+  "grafana": "docker.io/grafana/grafana:13.2.1@sha256:f772d434e8fab0049deb2b1b30abd43342bcfca1537614aa8d36080232cf4283"
+}

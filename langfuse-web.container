@@ -1,0 +1,39 @@
+[Unit]
+Description=Aorus Langfuse langfuse-web
+PartOf=langfuse.target
+After=langfuse-prepare.service
+Requires=langfuse-prepare.service langfuse-bootstrap.service
+After=langfuse-postgres.service langfuse-clickhouse.service langfuse-redis.service langfuse-minio.service langfuse-bootstrap.service
+Wants=langfuse-postgres.service langfuse-clickhouse.service langfuse-redis.service langfuse-minio.service langfuse-bootstrap.service
+StartLimitIntervalSec=0
+
+[Container]
+Image=docker.langfuse.com/langfuse/langfuse:4.36.0@sha256:b0556ab389af97d861185323e6dbd410464bb2b1669bd819251cb3635c291c07
+Pull=never
+ContainerName=aorus-langfuse-langfuse-web
+Network=langfuse.network
+NetworkAlias=langfuse-web
+GlobalArgs=--cgroup-manager=systemd
+CgroupsMode=split
+LogDriver=journald
+PidsLimit=1024
+EnvironmentFile=%h/.config/aorus-langfuse/langfuse.env
+Environment=NODE_OPTIONS=--max-old-space-size=1536
+Environment=HOSTNAME=0.0.0.0
+PublishPort=127.0.0.1:3000:3000
+HealthCmd=node -e "fetch('http://langfuse-web:3000/api/public/health?failIfDatabaseUnavailable=true').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+HealthInterval=30s
+HealthStartPeriod=120s
+HealthRetries=6
+HealthOnFailure=kill
+Notify=healthy
+
+[Service]
+Slice=langfuse.slice
+Restart=always
+RestartSec=10
+TimeoutStartSec=900
+TimeoutStopSec=90
+
+[Install]
+WantedBy=langfuse.target
