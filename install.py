@@ -9,6 +9,11 @@ def run(*args):
     return subprocess.run(args, check=True, text=True)
 
 def check_mount():
+    # Enter the directory to trigger its systemd automount before inspecting
+    # mountinfo. findmnt alone can see only the inactive autofs placeholder.
+    # Do not create anything until the backing filesystem is verified.
+    with os.scandir(DATA) as entries:
+        next(entries, None)
     result = subprocess.check_output(['findmnt','-J','-T',str(DATA)], text=True)
     mounts = json.loads(result)['filesystems']
     if not any(m.get('target') == str(DATA) and m.get('fstype') == 'xfs' and m.get('source') == '/dev/mapper/aorus-langfuse' for m in mounts):

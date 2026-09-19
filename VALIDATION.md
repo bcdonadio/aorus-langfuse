@@ -60,3 +60,17 @@ normal restart to adopt it. No test Codex process is left running.
   directory on this host. The bounded systemd gauge producer replaces it.
 - Persistent Collector queues now retry indefinitely within their bounded
   capacity, rather than discarding batches after a ten-minute outage.
+
+## 2026-09-19 boot recovery
+
+The September 17 boot attempted preparation before the XFS automount was
+activated. `findmnt` saw the autofs placeholder and rejected it; dependent
+start jobs were not retried when preparation later succeeded. The mount check
+now enters the directory with `os.scandir` before checking the exact XFS
+source, without creating any data first. The existing service timeout bounds
+a stalled mount. Ordering and wrong-filesystem rejection were tested with
+mocks, and the live mount check passed. A cold reboot was not performed.
+
+Starting `langfuse.target` recovered all ten containers. Both verification
+scripts passed, including intact 27,042-byte logs, cumulative metric value 5,
+filesystem metrics, and trace `33e86ceb6a756c3554e1f7421ed6e22d`.
