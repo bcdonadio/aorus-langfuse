@@ -1,11 +1,11 @@
 # Codex observability verification
 
-The Codex integration is pinned to `@langfuse/codex-observability-plugin@0.3.0`
-from source tag `v0.3.0` at commit
-`e2406316578941a016b290e81121ac750eb47176`. Its npm tarball must verify as:
+The Codex integration is pinned to `@langfuse/codex-observability-plugin@0.4.0`
+from source tag `v0.4.0` at commit
+`f4be3a47ac2c9c43721223a8f2e5d13f12e676c7`. Its npm tarball must verify as:
 
 ```text
-sha512-/dKNvHXwRIBPbs7DckLDHY9rZL0O9B4gLGjws+5TglA3ZMTnDLsz/Bp5/XYy329sjKjgx2FI8UIIOJgG+fJ7zA==
+sha512-f8klk8hDWQqSg+Vt3bCHunmhlK1+jU1itGiH2ewPIIjw+wUUfGquslSa8SRvxQ/Q2f5TiERdYScCTRgzHlnB/w==
 ```
 
 Run the idempotent installer after the credential bootstrap has created the
@@ -55,6 +55,8 @@ collector evidence below.
 
 ### Runtime evidence
 
+The September 15 evidence below used plugin 0.3.0.
+
 - Status: passed against Langfuse 4.36.0 in `events_only` mode
 - Session: `01a0a2a9-bd7a-7a90-89bb-9c5f04b4a480`
 - UTC timestamp: `2026-09-15T01:23:48Z` through `2026-09-15T01:24:41Z`
@@ -80,3 +82,23 @@ collector evidence below.
 - Process bound: each CLI invocation used a 180-second timeout; both exited 0.
 - Multi-agent: disabled for both invocations; no subagents were created.
 - Repository writes by test agent: none.
+
+### 2026-10-03 plugin 0.4.0 upgrade
+
+- SHA-512, exact four-file archive, package identity, and published source
+  provenance checked before installation. Socket findings are in
+  `DEPENDENCIES.md`.
+- Fresh CLI session: `01a1037f-4daf-7731-9934-faaa6d720dc0`; marker:
+  `CODEX_LF_UPGRADE_20261003_2042Z`.
+- One CLI process, multi-agent disabled, 180-second timeout, exit 0; no repository
+  edits. The marker is an identifier, not the process start timestamp.
+- Trace: `c8382457596d4154ee7900a1f57a4fb1`. Langfuse `events_full` contained
+  AGENT, GENERATION, and TOOL records with `service_name=codex`.
+- The TOOL output has 25,453 characters, including exactly 25,000 consecutive
+  `X` characters and the complete begin/end markers.
+- Loki contains the fresh session's native `codex.user_prompt` and
+  `codex.tool_result`, with the full sentinel in the output attribute. Native
+  event bodies can be empty; query the event attributes rather than only lines.
+- The existing local native tool-result limit, `9007199254740991`, was preserved
+  after the installer regenerated its managed block. It exceeds the tested
+  payload size. Unrelated hooks/settings and the active desktop were preserved.

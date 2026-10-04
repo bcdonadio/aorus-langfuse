@@ -21,14 +21,14 @@ from urllib.request import Request, urlopen
 
 
 PACKAGE = "@langfuse/codex-observability-plugin"
-VERSION = "0.3.0"
+VERSION = "0.4.0"
 TARBALL_URL = (
     "https://registry.npmjs.org/@langfuse/codex-observability-plugin/-/"
-    "codex-observability-plugin-0.3.0.tgz"
+    "codex-observability-plugin-0.4.0.tgz"
 )
-INTEGRITY = "sha512-/dKNvHXwRIBPbs7DckLDHY9rZL0O9B4gLGjws+5TglA3ZMTnDLsz/Bp5/XYy329sjKjgx2FI8UIIOJgG+fJ7zA=="
-SOURCE_TAG = "v0.3.0"
-SOURCE_COMMIT = "e2406316578941a016b290e81121ac750eb47176"
+INTEGRITY = "sha512-f8klk8hDWQqSg+Vt3bCHunmhlK1+jU1itGiH2ewPIIjw+wUUfGquslSa8SRvxQ/Q2f5TiERdYScCTRgzHlnB/w=="
+SOURCE_TAG = "v0.4.0"
+SOURCE_COMMIT = "f4be3a47ac2c9c43721223a8f2e5d13f12e676c7"
 MARKETPLACE = "langfuse-local"
 PLUGIN_NAME = "tracing"
 BEGIN = "# BEGIN managed Langfuse Codex observability"

@@ -6,7 +6,7 @@ Requires=langfuse-prepare.service
 StartLimitIntervalSec=0
 
 [Container]
-Image=cgr.dev/chainguard/minio@sha256:ad4a4c0a39ad7b71408124fe3df07b1b2e9d2959a369fac8754d2ef3311b5c20
+Image=cgr.dev/chainguard/minio@sha256:4cf4831a2bbcf13ddca09c1cbcc9faff716dd3c4247e0babc32864b8ee8e0034
 Pull=never
 ContainerName=aorus-langfuse-minio
 Network=langfuse.network

@@ -8,7 +8,7 @@ Wants=langfuse-postgres.service langfuse-clickhouse.service langfuse-redis.servi
 StartLimitIntervalSec=0
 
 [Container]
-Image=docker.langfuse.com/langfuse/langfuse-worker:4.36.0@sha256:25212a931e27f5d8a87cb25c81b5ccdb9f239655c1d9efb54a4378ded32c2c9e
+Image=docker.langfuse.com/langfuse/langfuse-worker:4.50.0@sha256:52f7fd41ded2f1a6acab13ff7cb1832d36dfe2cbf44adea402b7a09cfa4ce800
 Pull=never
 ContainerName=aorus-langfuse-langfuse-worker
 Network=langfuse.network
@@ -19,6 +19,7 @@ LogDriver=journald
 PidsLimit=1024
 EnvironmentFile=%h/.config/aorus-langfuse/langfuse.env
 Environment=LANGFUSE_LOG_LEVEL=warn
+Environment=LANGFUSE_BACKGROUND_MIGRATION_V4_DROP_PID_TID_SORTING_TABLES=true
 Environment=NODE_OPTIONS=--max-old-space-size=1536
 HealthCmd=node -e "fetch('http://langfuse-worker:3030/api/health?failIfQueueConsumptionStuck=true').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 HealthInterval=30s

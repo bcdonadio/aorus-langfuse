@@ -1,7 +1,7 @@
 # Deployment validation
 
-Validated on Aorus on 2026-09-14/15 using the immutable images in
-`images.lock.json`. This document records observed behavior, not a guarantee
+The September 14/15 and September 19 results below used the original immutable
+image set (Langfuse 4.36.0), before the October 3 update to `images.lock.json`. This document records observed behavior, not a guarantee
 against queue exhaustion or arbitrary oversized payloads.
 
 - All ten containers started under user systemd.
@@ -74,3 +74,36 @@ mocks, and the live mount check passed. A cold reboot was not performed.
 Starting `langfuse.target` recovered all ten containers. Both verification
 scripts passed, including intact 27,042-byte logs, cumulative metric value 5,
 filesystem metrics, and trace `33e86ceb6a756c3554e1f7421ed6e22d`.
+
+## 2026-10-03 upgrade and cleanup
+
+- Updated to the releases recorded in `DEPENDENCIES.md`; all ten running image
+  digests match the new lock file and Quadlets.
+- Before cleanup or upgrades, stopped all ten containers and backed up the data,
+  owner-only configuration, repository, Codex configuration, and plugin to
+  `/mnt/bcdtank/enc/infra/donadio/.langfuse-backups/2026-10-03-pre-upgrade`.
+  Numeric ownership, ACLs, and extended attributes were preserved. SELinux labels
+  are retained separately in `selinux-xattrs.txt` because the ZFS destination root
+  cannot adopt the source label; `restore-notes.txt` records restoration steps.
+  The final metadata/size/time comparison found no differences.
+- Explicitly enabled the worker's v4 cleanup gate after all prerequisite backfills
+  finished. `20260701_v4_step_5_drop_pid_tid_sorting_tables` completed at
+  `2026-10-03T20:38:42.924Z`; `observations_pid_tid_sorting` is absent.
+- After the upgrade, no PostgreSQL schema migration or background migration is
+  incomplete or failed. ClickHouse's latest migration is version 50, clean.
+- Langfuse health reports 4.50.0; Grafana reports 13.2.3; ClickHouse reports
+  26.9.9.28. Collector, Loki, and Prometheus configuration validators passed
+  against the new immutable images in bounded, network-disabled containers.
+- Python compilation, JSON parsing, lock/Quadlet consistency, eleven generated
+  systemd unit checks, and Git whitespace validation passed.
+- `verify-stack.py` passed: all ten services, payload/supervisor containment,
+  aggregate limits, loopback bindings, backend readiness, and S3 persistence.
+- `verify-telemetry.py` passed with marker
+  `telemetry-verify-22b8ad500b76c3827fb3ac48`: exact 27,042-byte log,
+  cumulative delta value 5, filesystem gauges, and trace
+  `0e2a374494146f35c9d35c8a74d489d8`.
+- Plugin 0.4.0 passed the fresh-process capture check recorded in
+  `codex-verification.md`. The running desktop/app-server was not restarted.
+
+The controlled backend-outage test and cold reboot were not repeated for this
+upgrade. Their earlier evidence remains historical.

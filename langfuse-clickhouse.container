@@ -6,7 +6,7 @@ Requires=langfuse-prepare.service
 StartLimitIntervalSec=0
 
 [Container]
-Image=docker.io/clickhouse/clickhouse-server:26.8.4.11@sha256:b1d9f9baec7727c779a6febb2a95eb08a8e1de3f463294e3ebb35c3d3fb30360
+Image=docker.io/clickhouse/clickhouse-server:26.9.9.28@sha256:402d385614cb9ba0214b5d9262e4c9cfe3d9fdc832bbbaca20d62a233eb0d9c4
 Pull=never
 ContainerName=aorus-langfuse-clickhouse
 Network=langfuse.network
